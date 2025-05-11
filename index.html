@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>С Днём Рождения!</title>
+  <style>
+    /* Стили для фонового изображения */
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('images/background.png') no-repeat center center fixed;
+      background-size: cover;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
+    /* Баннер */
+    .banner {
+      position: absolute;
+      top: 10%;
+      left: 52%;
+      transform: translateX(-50%);
+      width: 80%;
+      max-width: 1000px;
+      z-index: 2;
+    }
+    /* Кнопка */
+    .btn-container {
+      position: absolute;
+      bottom: 15%;
+      left: 49%;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+    .btn {
+      background: url('images/button.png') no-repeat center center;
+      background-size: contain;
+      width: 300px;
+      height: 100px;
+      border: none;
+      cursor: pointer;
+    }
+    /* Боковые изображения друга */
+    .side-img {
+      position: absolute;
+      top: 50%;
+      width: auto;
+      height: 60%;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+    .side-img.left { left: 0; }
+    .side-img.right { right: 0; }
+  </style>
+</head>
+<body>
+  <!-- Аудио с фоновым треком -->
+  <audio id="bg-music" preload="auto" loop>
+    <source src="audio/happy_birthday.mp3" type="audio/mpeg">
+    Ваш браузер не поддерживает аудио.
+  </audio>
+
+  <!-- Боковые изображения друга -->
+  <img src="images/friend_left.png" alt="Друг слева" class="side-img left" id="img-left">
+  <img src="images/friend_right.png" alt="Друг справа" class="side-img right" id="img-right">
+
+  <!-- Баннер -->
+  <img src="images/banner.png" alt="С днём рождения!" class="banner">
+
+  <!-- Кнопка с переходом -->
+  <div class="btn-container">
+    <button class="btn" onclick="location.href='page2.html';"></button>
+  </div>
+
+  <script>
+    // Попытка автозапуска аудио и fallback на первый клик
+    const audio = document.getElementById('bg-music');
+    document.addEventListener('DOMContentLoaded', () => {
+      audio.play().catch(() => {
+        // Если автозапуск заблокирован, стартуем по первому клику
+        document.body.addEventListener('click', () => {
+          audio.play();
+        }, { once: true });
+      });
+    });
+
+    // Функции для цветовой анимации боковых изображений
+    function randomHue() {
+      return Math.floor(Math.random() * 360);
+    }
+    function updateColor(img) {
+      img.style.filter = `hue-rotate(${randomHue()}deg) saturate(1.5)`;
+    }
+    const leftImg = document.getElementById('img-left');
+    const rightImg = document.getElementById('img-right');
+    setInterval(() => {
+      updateColor(leftImg);
+      updateColor(rightImg);
+    }, 300);
+  </script>
+</body>
+</html>
